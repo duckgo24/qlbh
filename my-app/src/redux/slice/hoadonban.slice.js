@@ -5,6 +5,7 @@ const hdbSlice = createSlice({
     name: "hdb",
     initialState: {
         list_hdb: [],
+        filter_hdb: [],
         list_hdb_by_user: [],
         hdb_chua_thanh_toan_by_user: [],
         hdb_da_thanh_toan_by_user: [],
@@ -13,6 +14,9 @@ const hdbSlice = createSlice({
     reducers: {
         setListHDB: (state, action) => {
             state.list_hdb = action.payload;
+        },
+        setFilterHdb: (state, action) => {
+            state.filter_hdb = action.payload;
         },
         setDeleteHDB: (state, action) => {
             const index = state.list_hdb.findIndex(item => item.ma_hdb === action.payload.ma_hdb);
@@ -66,6 +70,7 @@ const hdbSlice = createSlice({
 
 export const {
     setListHDB,
+    setFilterHdb,
     setDeleteHDB,
     setListHDBByUser,
     setListHDBChuaThanhToanByUser,

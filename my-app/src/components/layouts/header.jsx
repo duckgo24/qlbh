@@ -69,7 +69,7 @@ function Header() {
         }
 
         if (debounceValue) {
-            productService.searchProduct({ keyword: debounceValue }).then(data => {
+            productService.searchProduct({ q: debounceValue }).then(data => {
                 if (data) {
                     setSearchResult(data);
                 }
@@ -81,9 +81,8 @@ function Header() {
     return (
         <div className="header px-2 flex items-center justify-between h-28 border-b border-solid border-blue-100 bg-white">
             <div>
-                <Link to="/" className="flex items-center gap-2">
-                    <img src="../images/pepe.jpg" alt="logo" className="h-14 w-20 rounded" />
-                    <span className="font-bold uppercase text-sm">Pepe - cửa hàng pepe</span>
+                <Link to="/" className="flex items-center pl-10 gap-2">
+                    <img src="../images/logo.png" alt="logo" className='w-40 h-12' />
                 </Link>
             </div>
             <div className="flex w-1/2 relative">

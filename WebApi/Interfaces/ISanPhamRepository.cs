@@ -13,6 +13,10 @@ namespace WebApi.Interfaces
         Task<List<SanPham>> GetSanPhamBestSales(int n);
         Task<List<SanPham>> GetSanPhamNews(int n);
         Task<List<SanPham>> GetSanPhamByMaDM(string ma_dm, int n);
+
+
+        Task<List<SanPham>> searchSanPham(string search);
+
         Task<SanPham> GetById(string id);
         Task<SanPham> Create(CreateSanPhamDto createSanPhamDto);
         Task<SanPham> Update(string id, UpdateSanPhamDto updateSanPhamDto);

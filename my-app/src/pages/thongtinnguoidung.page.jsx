@@ -25,15 +25,18 @@ export default function ThongTinNguoiDung() {
 
   const handleOnInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'radio' ? value : checked ? value : formData[name],
-    });
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
   };
+
+  
   const handleClickReqEdit = () => {
     setIsReqEdit(false)
   }
-  
+
   const updateUserMutation = useHookMutation((data) => {
     return accountService.updateUser(data);
   });

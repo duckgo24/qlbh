@@ -12,27 +12,47 @@ async function getTatCaHoaDonBan() {
 
 //User
 async function getHDBById(id) {
-    const res = await axiosJWT.get(`${baseURL}/hoadonban/get-by-id/${id}`);
-    return res.data;
+    try {
+        const res = await axiosJWT.get(`${baseURL}/hoadonban/get-by-id/${id}`);
+        return res.data;
+    } catch (error) {
+        return error.message;;
+    }
 }
 
 async function layDanhSachHoaDonTheoNgay(ngay) {
-    const res = await axiosJWT.get(`${baseURL}/hoadonban/get-theo-ngay/${ngay}`);
-    return res.data;
+    try {
+        const res = await axiosJWT.get(`${baseURL}/hoadonban/get-theo-ngay/${ngay}`);
+        return res.data;
+    } catch (error) {
+        return error.message;;
+    }
 }
 
 async function layDanhSachHoaDonTheoTongTien(tong_tien) {
-    const res = await axiosJWT.get(`${baseURL}/hoadonban/get-theo-tong-tien/${tong_tien}`);
-    return res.data;
+    try {
+        const res = await axiosJWT.get(`${baseURL}/hoadonban/get-theo-tong-tien/${tong_tien}`);
+        return res.data;
+    } catch (error) {
+        return error.message;
+    }
 }
 
 async function layDanhSachHoaDonTheoTrangThai({ thanh_toan }) {
-    const res = await axiosJWT.get(`${baseURL}/hoadonban/get-theo-trang-thai/${thanh_toan}`);
-    return res.data;
+    try {
+        const res = await axiosJWT.get(`${baseURL}/hoadonban/get-theo-trang-thai/${thanh_toan}`);
+        return res.data;
+    } catch (error) {
+        return error.message;
+    }
 }
 async function layDanhSachHoaDonByUser({ userId }) {
-    const res = await axiosJWT.get(`${baseURL}/hoadonban/get-by-id/${userId}`);
-    return res.data;
+    try {
+        const res = await axiosJWT.get(`${baseURL}/hoadonban/get-by-user-id/${userId}`);
+        return res.data;
+    } catch (error) {
+        return error.message;
+    }
 }
 
 async function layDanhSachHoaDonDaThanhToanByUser({ userId }) {

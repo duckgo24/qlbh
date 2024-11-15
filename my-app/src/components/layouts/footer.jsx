@@ -33,9 +33,9 @@ function Footer() {
                 <div >
                     <p>Kết nối với chúng tôi</p>
                     <div className="flex justify-between items-center py-2">
-                        <FaFacebook size={30}/>
-                        <FaTelegram size={30} />
-                        <FaLinkedin size={30}/>
+                        <FaFacebook color="#0965FD" size={30} />
+                        <FaTelegram color="3390EC" size={30} />
+                        <FaLinkedin color="3390EC" size={30}/>
                     </div>
                 </div>
             </div>

@@ -64,7 +64,7 @@ export default function LayoutAdmin({ children }) {
                 height: '100vh',
             }}>
             <Link to={"/"} className="bg-orange-200 px-5 py-4 flex items-center gap-4 border-b-2 border-solid border-gray-300">
-                <img src="../images/pepe.jpg" className='w-20 h-12' />
+                <img src="../images/logo.png" className='w-36 h-11' />
                 <p>Trang quản trị</p>
             </Link>
             <div className='flex flex-1'>

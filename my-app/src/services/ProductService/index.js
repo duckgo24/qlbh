@@ -44,10 +44,10 @@ async function getProductById({ma_sp}) {
 }
 
 
-async function searchProduct({ keyword }) {
+async function searchProduct({ q }) {
     const response = await axiosJWT.get(`${baseURL}/sanpham/search`, {
         params: {
-            keyword
+           q
         }
     });
     return response.data;

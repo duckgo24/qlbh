@@ -27,6 +27,10 @@ namespace WebApi.Repositories
         {
             return await _context.SanPhams.ToListAsync();
         }
+        public async Task<List<SanPham>> searchSanPham(string search)
+        {
+            return await _context.SanPhams.Where(sp => sp.ten_sp.Contains(search)).Take(6).ToListAsync();
+        }
         public async Task<List<SanPham>> GetSanPhamBestSales(int n)
         {
             return await _context.SanPhams.OrderByDescending(sp => sp.so_luong).Take(n).ToListAsync();

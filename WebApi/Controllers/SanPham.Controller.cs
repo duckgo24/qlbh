@@ -34,6 +34,17 @@ namespace WebApi.Controllers
             return Ok(dsSp);
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> GetByTenSp([FromQuery] string q)
+        {
+            var dsSp = await _sanPhamRepository.searchSanPham(q);
+            if (dsSp == null)
+            {
+                return NotFound("Product not found");
+            }
+            return Ok(dsSp);
+        }
+        
         [HttpGet("best-sales")]
         public async Task<IActionResult> GetSanPhamBestSales([FromQuery] int limit)
         {
@@ -75,7 +86,6 @@ namespace WebApi.Controllers
             }
             return Ok(sp);
         }
-
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] CreateSanPhamDto createSanPhamDto)
         {

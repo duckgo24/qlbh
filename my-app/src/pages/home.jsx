@@ -17,7 +17,7 @@ import DanhMuc from "../components/danhmuc_component/DanhMuc";
 
 function Home() {
     const { my_account } = useSelector((state) => state.account);
-    const { productBestSales, productNews, list_product } = useSelector((state) => state.product);
+    const { productBestSales, productNews } = useSelector((state) => state.product);
     const dispatch = useDispatch();
 
     const { data: authData, isSuccess: isFetchAuthSuccess, isError: isFetchAuthError } = useQuery({
@@ -79,14 +79,14 @@ function Home() {
                 <div className="bg-white pt-2 pb-7 px-2 rounded-md">
                     <div className="flex justify-between py-2">
                         <p className="border-l-4 border-solid border-black px-2 uppercase font-bold">Sản phẩm bán chạy</p>
-                        <Link className="text-sm hover:underline" to='/products'>{"Xem tất cả >>"}</Link>
+                        <Link className="text-sm hover:underline" to='/'>{"Xem tất cả >>"}</Link>
                     </div>
                     <ListProduct listProduct={productBestSales} />
                 </div>
                 <div className="bg-white pt-2 pb-7 px-2 rounded-md">
                     <div className="flex justify-between py-2">
                         <p className="border-l-4 border-solid border-black px-2 uppercase font-bold">Sản phẩm mới</p>
-                        <Link className="text-sm hover:underline" to='/products'>{"Xem tất cả >>"}</Link>
+                        <Link className="text-sm hover:underline" to='/'>{"Xem tất cả >>"}</Link>
                     </div>
                     <ListProduct listProduct={productNews} />
                 </div>
