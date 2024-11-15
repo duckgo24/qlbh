@@ -25,7 +25,7 @@ namespace WebApi.Services
             var claims = new List<Claim>
             {
                 new Claim("acc_id", account.acc_id),
-                new Claim("isAdmin", account.isAdmin.ToString()),
+                new Claim("role", account.isAdmin ? "Admin" : "User"), 
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 

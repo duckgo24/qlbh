@@ -12,7 +12,6 @@ using WebApi.Interfaces;
 
 namespace WebApi.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("danhmuc")]
     public class DanhMucController : Controller
@@ -46,6 +45,7 @@ namespace WebApi.Controllers
             return Ok(_mapper.Map<DanhMucDto>(danhMuc));
         }
 
+        [Authorize(policy: "Admin")]
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] CreateDanhMucDto createDanhMucDto)
         {
@@ -57,6 +57,7 @@ namespace WebApi.Controllers
             return Ok(_mapper.Map<DanhMucDto>(danhMuc));
         }
 
+        [Authorize(policy: "Admin")]
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(string id, [FromBody] CreateDanhMucDto updateDanhMucDto)
         {
@@ -68,6 +69,7 @@ namespace WebApi.Controllers
             return Ok(_mapper.Map<DanhMucDto>(danhMuc));
         }
 
+        [Authorize(policy: "Admin")]
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
@@ -77,6 +79,6 @@ namespace WebApi.Controllers
                 return NotFound("Category not found");
             }
             return Ok(_mapper.Map<DanhMucDto>(danhMuc));
-        }       
+        }
     }
 }

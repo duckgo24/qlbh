@@ -77,6 +77,12 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireClaim("role", "Admin"));
+    options.AddPolicy("User", policy => policy.RequireClaim("role", "User"));
+});
+
 
 builder.Services.AddSwaggerGen(option =>
 {

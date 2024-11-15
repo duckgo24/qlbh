@@ -14,7 +14,6 @@ namespace WebApi.Controllers
     [Authorize]
     [ApiController]
     [Route("sanpham")]
-
     public class SanPhamController : ControllerBase
     {
         public ISanPhamRepository _sanPhamRepository { get; set; }
@@ -86,6 +85,7 @@ namespace WebApi.Controllers
             }
             return Ok(sp);
         }
+        [Authorize (policy: "Admin")]
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] CreateSanPhamDto createSanPhamDto)
         {
@@ -96,6 +96,7 @@ namespace WebApi.Controllers
             }
             return Ok(sp);
         }
+        [Authorize (policy: "Admin")]
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(string id, [FromBody] UpdateSanPhamDto sanPhamDto)
         {
@@ -106,6 +107,7 @@ namespace WebApi.Controllers
             }
             return Ok(sp);
         }
+        [Authorize (policy: "Admin")]
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
