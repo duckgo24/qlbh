@@ -1,7 +1,7 @@
 
 
 import { BiCategory, BiPlus } from "react-icons/bi";
-import { RiEditLine } from "react-icons/ri";
+import { RiDeleteBin6Line, RiEditLine } from "react-icons/ri";
 import { MdDeleteOutline } from "react-icons/md";
 import { Modal } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -47,7 +47,7 @@ function AdminDanhMucPage() {
 
     const handleAddDanhMuc = (e) => {
         e.preventDefault();
-        if(!formData.ten_dm || !formData.mo_ta) {
+        if (!formData.ten_dm || !formData.mo_ta) {
             setThongBao({
                 isOpen: true,
                 type: "error",
@@ -114,7 +114,7 @@ function AdminDanhMucPage() {
     const editDanhMucMutation = useHookMutation((data) => {
         return danhMucService.updateDanhMuc(data.ma_dm, data);
     });
-    
+
     const handleEditDanhMuc = (e) => {
         e.preventDefault();
         editDanhMucMutation.mutate((formData), {
@@ -243,7 +243,7 @@ function AdminDanhMucPage() {
                                         <RiEditLine color="#fff" size={25} />
                                     </button>
                                     <button onClick={() => handleOpenDeleteModal(dm?.ma_dm)} className="px-2 py-2 rounded-full bg-red-300">
-                                        <MdDeleteOutline color="#000" size={25} />
+                                        <RiDeleteBin6Line color="#fff" size={25} />
                                         <Modal
                                             open={openModalDelete === dm?.ma_dm}
                                             onClose={handleCloseDeleteModal}

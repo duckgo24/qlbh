@@ -6,6 +6,7 @@ import AdminSanPhamPage from "../Admin/Admin_SanPham";
 import AdminTaiKhoanPage from "../Admin/Admin_TaiKhoan";
 import ChiTietSanPham from "../pages/chitietsanpham.page";
 import DanhMucPage from "../pages/danhmuc.page";
+import DonHangPage from "../pages/donhang.page";
 import GioHang from "../pages/giohang.page";
 import Home from "../pages/home";
 import ThanhToanPage from "../pages/thanhtoan.page";
@@ -40,6 +41,11 @@ export const appRoutes = [
     {
         path: '/thanh-toan',
         component: ThanhToanPage,
+        isLayout: true,
+    },
+    {
+        path: '/don-hang',
+        component: DonHangPage,
         isLayout: true,
     },
 

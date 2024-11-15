@@ -8,13 +8,18 @@ import { hoadonbanService } from "../../services/HoaDonBanService";
 import useHookMutation from "../../hooks/useHookMutation";
 import { setListHDB, setXoaHDB } from "../../redux/slice/hoadonban.slice";
 import { FiShoppingCart } from "react-icons/fi";
-import { CiSearch } from "react-icons/ci";
+import { CiSearch, CiViewList } from "react-icons/ci";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { Modal } from "@mui/material";
 
 
 
 function AdminHoaDonBanPage() {
     const { list_hdb } = useSelector(state => state.hdb);
     const [openModal, setOpenModal] = useState(false);
+    const [openModalCTHD, setOpenModalCTHD] = useState();
+    const [ctHDB, setCtHDB] = useState();
+
     const [thongbao, setThongBao] = useState({
         isOpen: false,
         type: "",
@@ -29,6 +34,21 @@ function AdminHoaDonBanPage() {
         queryKey: ['get-all-hdb'],
         queryFn: hoadonbanService.getTatCaHoaDonBan
     });
+
+
+    const handleClickViewCTHD = async (hdb) => {
+        console.log("oke");
+        
+        try {
+            const res = await hoadonbanService.getHDBById(hdb?.ma_hdb); 
+            if (res) {
+                setCtHDB(res.ChiTietHoaDonBans);
+            }
+        } catch (error) {
+            console.error("Error fetching data", error);
+        }
+    };
+    
 
 
 
@@ -63,12 +83,6 @@ function AdminHoaDonBanPage() {
 
 
 
-
-
-
-
-
-
     useEffect(() => {
         if (isSuccessFetchGetAllHdb) {
             dispatch(setListHDB(hdbData));
@@ -98,11 +112,11 @@ function AdminHoaDonBanPage() {
                 </div>
             </div>
             <div className="flex mt-2">
-                <input type="text" placeholder="Tim kiếm sản phẩm...." className="border border-gray-300 rounded-l-xl outline-none flex-1 px-4"/>
+                <input type="text" placeholder="Nhập từ khóa tìm kiếm..." className="border border-gray-300 rounded-l-xl outline-none flex-1 px-4" />
                 <select className="bg-gray-50 border border-gray-300 border-l-0 text-gray-900 text-base outline-none w-96">
                     <option>Tìm kiếm theo mã hóa đơn</option>
                     <option>Tìm kiếm theo mã tài khoản</option>
-                    <option>Tìm kiếm theo giá tiền</option>
+                    <option>Tìm kiếm theo giá tiền lớn hơn</option>
                 </select>
                 <button className="bg-orange-400 flex items-center justify-center px-2 py-1 text-white text-base rounded-r-2xl hover:bg-orange-200">
                     <CiSearch size={40} />
@@ -149,7 +163,7 @@ function AdminHoaDonBanPage() {
                                     {hdb?.tong_tien}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {hdb?.thanh_toan}
+                                    {hdb?.thanh_toan ? "Đã thanh toán" : "Chưa thanh toán"}
                                 </td>
                                 <td className="px-6 py-4">
                                     {hdb?.phuong_thuc_thanh_toan}
@@ -159,23 +173,19 @@ function AdminHoaDonBanPage() {
                                 </td>
                                 <td className="px-6 py-4 flex justify-center gap-4">
                                     <button className="px-2 py-2 rounded-full bg-green-600">
-
+                                        <CiViewList color="#fff" size={20} />
                                     </button>
-                                    <button className="px-2 py-2 rounded-full bg-red-300">
-
+                                    <button onClick={() => handleClickViewCTHD(hdb)} className="px-2 py-2 rounded-full bg-red-300">
+                                        <RiDeleteBin6Line color="#fff" size={20} />
                                         {/* <Modal
-                                            open={openModalDelete === product?.ma_sp}
-                                            onClose={handleCloseDeleteModal}
+                                            open={openModalCTHD === hdb?.ma_hdb}
+                                            onClose={() => setOpenModalCTHD(null)}
                                             className="flex justify-center items-center"
                                         >
-                                            <div className="bg-white p-4 w-96 rounded-lg">
-                                                <p className="text-2xl font-bold pb-5">Xác nhận xóa</p>
-                                                <p>Bạn có chắc chắn muốn xóa sản phẩm {product?.ten_sp} ?</p>
-                                                <div className="flex gap-4">
-                                                    <button onClick={() => handleDeletesanPham(product?.ma_sp)} className="bg-red-600 text-white p-2 rounded-lg px-7">Xóa</button>
-                                                    <button onClick={handleCloseDeleteModal} className="bg-gray-300 text-white p-2 rounded-lg px-6">Hủy</button>
-                                                </div>
+                                            <div>
+
                                             </div>
+
                                         </Modal> */}
                                     </button>
                                 </td>

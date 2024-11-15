@@ -44,6 +44,7 @@ function ThanhToanPage() {
         for (const hdbId of selectedHdbIds) {
             const updatedData = {
                 ma_hdb: hdbId,
+                thanh_toan: true,
                 phuong_thuc_thanh_toan: phuongThucThanhToan,
                 dia_chi: diaChi,
             };

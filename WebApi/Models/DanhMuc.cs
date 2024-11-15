@@ -14,7 +14,7 @@ namespace WebApi.Models
         public string mo_ta { get; set; }
         public DateTime created_date { get; set; } = DateTime.Now;
         public string created_by { get; set; } 
-        public ICollection<SanPham> SanPhams { get; set; }
+        public virtual ICollection<SanPham> SanPhams { get; set; }
         public Account User { get; set; }  
 
 

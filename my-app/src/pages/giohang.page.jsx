@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { setDeleteHDBChuaThanhToanByUser, setListHDBChuaThanhToanByUser } from "../redux/slice/hoadonban.slice";
 import useHookMutation from "../hooks/useHookMutation";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import RenderWithCondition from "../components/RenderWithCondition";
 
 function GioHang() {
     const { my_account } = useSelector((state) => state.account);
@@ -78,14 +79,14 @@ function GioHang() {
 
         navigate('/thanh-toan', {
             state: {
-                selectedHdbIds, 
+                selectedHdbIds,
             }
         });
     };
-    
+
 
     return (
-        <div className=" mt-3">
+        <div className="mt-3">
             <div className="grid px-3 py-4 bg-white" style={{ gridTemplateColumns: "30% auto" }}>
                 <div className="flex items-center gap-2">
                     <input type="checkbox" className="h-6 w-6" />
@@ -98,6 +99,11 @@ function GioHang() {
                     <p>Thao tác</p>
                 </div>
             </div>
+            <RenderWithCondition condition={hdb_chua_thanh_toan_by_user.length === 0}>
+                <p className="border border-solid border-gray-300 bg-white mt-6 h-32">Hiện chưa có đơn hàng nào? Mua ngày thôi nào
+                    <Link to="/" className="text-blue-500 hover:underline">Tại đây</Link>
+                </p>
+            </RenderWithCondition>
             <div className="border border-solid border-gray-300 bg-white mt-6">
                 {hdb_chua_thanh_toan_by_user && hdb_chua_thanh_toan_by_user.map((hdb) => (
                     <div key={hdb?.ma_hdb}>

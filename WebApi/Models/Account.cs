@@ -20,10 +20,10 @@ namespace WebApi.Models
 
         public bool isAdmin { get; set; } = false;
 
-        public ICollection<DanhMuc> DanhMucs { get; set; }
-        public ICollection<SanPham> SanPhams { get; set; }
-        public ICollection<HoaDonNhap> HoaDonNhaps { get; set; }
-        public ICollection<HoaDonBan> HoaDonBans { get; set; }
+        public virtual ICollection<DanhMuc> DanhMucs { get; set; }
+        public virtual ICollection<SanPham> SanPhams { get; set; }
+        public virtual ICollection<HoaDonNhap> HoaDonNhaps { get; set; }
+        public virtual ICollection<HoaDonBan> HoaDonBans { get; set; }
     }
 
 }

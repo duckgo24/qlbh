@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "@mui/material";
-import { RiEditLine, RiProductHuntLine } from "react-icons/ri";
+import { RiDeleteBin6Line, RiEditLine, RiProductHuntLine } from "react-icons/ri";
 import { MdDeleteOutline } from "react-icons/md";
 import { AiOutlinePicture } from "react-icons/ai";
 
@@ -292,8 +292,6 @@ function AdminSanPhamPage() {
 
                                 <button onClick={handleClickGetImage} className="py-2 px-2 mt-2 bg-slate-100">Chọn hình ảnh</button>
                             </div>
-
-
                         </div>
                         <button onClick={option === "Them-SP" ? handleAddSanPham : handleEditSanPham} className="bg-green-600 text-white float-right p-2 rounded-lg px-16 py-2 mt-5">
                             {option === "Them-SP" ? "Thêm" : "Sửa"}
@@ -366,7 +364,7 @@ function AdminSanPhamPage() {
                                         <RiEditLine color="#fff" size={25} />
                                     </button>
                                     <button onClick={() => handleOpenDeleteModal(product?.ma_sp)} className="px-2 py-2 rounded-full bg-red-300">
-                                        <MdDeleteOutline color="#000" size={25} />
+                                    <RiDeleteBin6Line color="#fff" size={25} />
                                         <Modal
                                             open={openModalDelete === product?.ma_sp}
                                             onClose={handleCloseDeleteModal}

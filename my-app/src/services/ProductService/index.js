@@ -43,6 +43,16 @@ async function getProductById({ma_sp}) {
     return response.data;
 }
 
+
+async function searchProduct({ keyword }) {
+    const response = await axiosJWT.get(`${baseURL}/sanpham/search`, {
+        params: {
+            keyword
+        }
+    });
+    return response.data;
+}
+
 async function createProduct(data) {
     const response = await axiosJWT.post(`${baseURL}/sanpham/create`, data);
     return response.data;
@@ -69,4 +79,5 @@ export const productService = {
     createProduct,
     updateProduct,
     deleteProduct,
+    searchProduct
 }

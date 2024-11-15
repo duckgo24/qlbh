@@ -9,26 +9,24 @@ namespace WebApi.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        private readonly IConfiguration _configuration;
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration) : base(options)
+        public ApplicationDbContext()
         {
-            _configuration = configuration;
-            Database.Migrate();
+
+        }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseMySql(
-                    _configuration.GetConnectionString("DefaultConnection"),
-                    new MySqlServerVersion(new Version(8, 0, 21))
-                );
-            }
+            optionsBuilder.UseSqlServer(
+                              "Server=LAPTOP-OKNDRQI4;Database=qlbh;Integrated Security=True;TrustServerCertificate=true;"
+                           );
         }
+
 
         public DbSet<Account> Accounts { get; set; }
         public DbSet<DanhMuc> DanhMucs { get; set; }
@@ -44,6 +42,20 @@ namespace WebApi.Data
             modelBuilder.Entity<Account>(entity =>
             {
                 entity.HasKey(a => a.acc_id);
+                entity.HasData(new Account
+                {
+                    acc_id = Guid.NewGuid().ToString(),
+                    username = "admin",
+                    password = "$2a$11$43iml1d0PtJaRgG93KNWUeURMBX9ZjMAFG2oGRv7IJTfXWP9t5rE.", //1
+                    full_name = "admin",
+                    nick_name = "admin",
+                    gioi_tinh = "Nam",
+                    isAdmin = true,
+                    ngay_sinh = DateTime.Now,
+                    avatar = "admin",
+                    sdt = "123456789",
+                    dia_chi = "admin"
+                });
             });
 
             modelBuilder.Entity<DanhMuc>(entity =>
@@ -62,7 +74,8 @@ namespace WebApi.Data
                       .HasForeignKey(sp => sp.created_by);
                 entity.HasOne(sp => sp.DanhMuc)
                       .WithMany(dm => dm.SanPhams)
-                      .HasForeignKey(sp => sp.ma_dm);
+                      .HasForeignKey(sp => sp.ma_dm)
+                      .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<HoaDonNhap>(entity =>
@@ -81,7 +94,8 @@ namespace WebApi.Data
                       .HasForeignKey(cthdn => cthdn.ma_hdn);
                 entity.HasOne(cthdn => cthdn.SanPham)
                 .WithMany(sp => sp.ChiTietHoaDonNhaps)
-                .HasForeignKey(cthdn => cthdn.ma_sp);
+                .HasForeignKey(cthdn => cthdn.ma_sp)
+                .OnDelete(DeleteBehavior.NoAction); ;
             });
 
             modelBuilder.Entity<HoaDonBan>(entity =>
@@ -97,7 +111,9 @@ namespace WebApi.Data
                 entity.HasKey(cthdb => cthdb.ma_cthdb);
                 entity.HasOne(cthdb => cthdb.HoaDonBan)
                       .WithMany(hdb => hdb.ChiTietHoaDonBans)
-                      .HasForeignKey(cthdb => cthdb.ma_hdb);
+                      .HasForeignKey(cthdb => cthdb.ma_hdb)
+                      .OnDelete(DeleteBehavior.NoAction)
+                ;
                 entity.HasOne(cthdb => cthdb.SanPham)
                       .WithMany(sp => sp.ChiTietHoaDonBans)
                       .HasForeignKey(cthdb => cthdb.ma_sp);

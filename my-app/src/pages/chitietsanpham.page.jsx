@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { productService } from "../services/ProductService";
 import RenderWithConditon from "../components/RenderWithCondition";
 import { FaCartPlus, FaMinus, FaPlus, FaStar } from "react-icons/fa";
@@ -11,7 +11,7 @@ import { hoadonbanService } from "../services/HoaDonBanService";
 function ChiTietSanPham() {
     const location = useLocation();
     const ma_sp = location.state?.ma_sp;
-
+    const navigate = useNavigate();
     const [soLuongMua, setSoLuongMua] = useState(0);
     const [thongbao, setThongBao] = useState({
         isOpen: false,
@@ -63,6 +63,38 @@ function ChiTietSanPham() {
                 }
             }
         )
+    };
+
+    const handleClickMuaNgay = () => {
+        sanPhamMuaMutations.mutate(
+            {
+                "phuong_thuc_thanh_toan": "Thanh toán khi nhận hàng",
+                "danh_sach_san_pham": [
+                    {
+                        ma_sp,
+                        so_luong: soLuongMua
+                    }
+                ]
+            },
+            {
+                onSuccess: (data) => {
+                    navigate('/thanh-toan', {
+                        state: {
+                            selectedHdbIds: [data?.ma_hdb]
+                        }
+                    })
+                },
+                onError: (error) => {
+                    setThongBao({
+                        isOpen: true,
+                        type: "error",
+                        message: error.response.data.message
+                    })
+                }
+            }
+        )
+
+        
     };
 
 
@@ -148,7 +180,7 @@ function ChiTietSanPham() {
                                     <FaCartPlus className="mr-2" />
                                     <p>Thêm vào giỏ hàng</p>
                                 </button>
-                                <button className="bg-yellow-500 text-white px-7 py-2 mt-3 hover:bg-yellow-400">Mua ngay</button>
+                                <button onClick={handleClickMuaNgay} className="bg-yellow-500 text-white px-7 py-2 mt-3 hover:bg-yellow-400">Mua ngay</button>
                             </div>
                         </div>
                     </div>

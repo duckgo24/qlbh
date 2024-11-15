@@ -10,5 +10,7 @@ dotnet ef database update
 ```bash
 dotnet run
 ```
+dotnet new tool-manifest  
+dotnet tool install dotnet-ef
 
 4. Open [http://localhost:5299](http://localhost:5299/swagger/index.html)

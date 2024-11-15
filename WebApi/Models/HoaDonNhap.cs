@@ -17,6 +17,6 @@ namespace WebApi.Models
         public string phuong_thuc_thanh_toan { get; set; }
         public string acc_id { get; set; }
         public Account Account { get; set; }
-        public ICollection<ChiTietHoaDonNhap> ChiTietHoaDonNhaps { get; set; }
+        public virtual ICollection<ChiTietHoaDonNhap> ChiTietHoaDonNhaps { get; set; }
     }
 }
