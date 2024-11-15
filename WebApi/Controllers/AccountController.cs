@@ -44,8 +44,22 @@ namespace WebApi.Controllers
             return Ok(_mapper.Map<List<AccountDto>>(accounts));
         }
 
+        [HttpPut("update-user/{id}")]
+        public async Task<IActionResult> updateUser([FromRoute] string id, [FromBody] UpdateUserDto updateUserDto)
+        {
+
+            var accountModel = await _accountRepository.updateInfoUser(id, updateUserDto);
+
+            if (accountModel == null)
+            {
+                return NotFound("Account not found");
+            }
+            return Ok(new { message = "Account updated", account = _mapper.Map<AccountDto>(accountModel) });
+        }
+
+        
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> update([FromRoute] string id, [FromBody] UpdateAccountDto updateAccountDto)
+        public async Task<IActionResult> updateAccount([FromRoute] string id, [FromBody] UpdateAccountDto updateAccountDto)
         {
 
             var accountModel = await _accountRepository.updateAccount(id, updateAccountDto);
@@ -56,6 +70,7 @@ namespace WebApi.Controllers
             }
             return Ok(new { message = "Account updated", account = _mapper.Map<AccountDto>(accountModel) });
         }
+
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> delete([FromRoute] string id)

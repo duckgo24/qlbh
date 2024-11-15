@@ -17,16 +17,20 @@ function GioHang() {
 
     const [selectedItems, setSelectedItems] = useState([]);
 
-    const { data: hdbChuaTTData, isSuccess: isSuccessFetchHdbChuaTT, isLoading, isError } = useQuery({
-        queryKey: ['get-hdb-chua-thanh-toan'],
-        queryFn: () => hoadonbanService.layDanhSachHoaDonChuaThanhToanByUser({ userId: my_account.acc_id })
+    const { data: hdbChuaTTData, isSuccess: isSuccessFetchHdbChuaTT, isLoading, isError, refetch } = useQuery({
+        queryKey: ['get-hdb-chua-thanh-toan', my_account?.acc_id], 
+        queryFn: () => hoadonbanService.layDanhSachHoaDonChuaThanhToanByUser({ userId: my_account.acc_id }),
+        refetchOnWindowFocus: true, 
+        staleTime: 0, 
+        cacheTime: 0,
     });
+    
 
     useEffect(() => {
         if (isSuccessFetchHdbChuaTT) {
             dispatch(setListHDBChuaThanhToanByUser(hdbChuaTTData));
         }
-    }, [isSuccessFetchHdbChuaTT]);
+    }, [isSuccessFetchHdbChuaTT, dispatch]);
 
 
     const handleCheckboxChange = (hdbId, cthdbId, price, quantity) => {
@@ -66,11 +70,10 @@ function GioHang() {
 
     const handleDeleteHDB = async (id) => {
         deleteHdbMutation.mutate(id, {
-            onSuccess: () => {
-                dispatch(setDeleteHDBChuaThanhToanByUser({
-                    ma_hdb: id
-                }));
+            onSuccess: (data) => {
+                dispatch(setDeleteHDBChuaThanhToanByUser(data));
             }
+            
         });
     };
 
@@ -104,13 +107,13 @@ function GioHang() {
                     <Link to="/" className="text-blue-500 hover:underline">Tại đây</Link>
                 </p>
             </RenderWithCondition>
-            <div className="border border-solid border-gray-300 bg-white mt-6">
+            <div className="border border-solid border-gray-300 bg-white mt-6 pb-2">
                 {hdb_chua_thanh_toan_by_user && hdb_chua_thanh_toan_by_user.map((hdb) => (
                     <div key={hdb?.ma_hdb}>
                         {hdb.chiTietHoaDonBans && hdb.chiTietHoaDonBans.map((cthdb) => {
                             let _pro = list_product.find(pro => pro.ma_sp === cthdb.ma_sp);
                             return (
-                                <div key={cthdb.ma_cthdb} className="grid px-3 py-4" style={{ gridTemplateColumns: "30% auto" }}>
+                                <div key={cthdb.ma_cthdb} className="grid px-3 py-4 border border-solid border-gray-300 mt-1 bg-slate-300" style={{ gridTemplateColumns: "30% auto" }}>
                                     <div className="flex items-center gap-3">
                                         <input
                                             type="checkbox"

@@ -17,6 +17,7 @@ namespace WebApi.Dtos.Account
         public string dia_chi { get; set; }
         public string avatar { get; set; }
         public DateTime ngay_sinh { get; set; }
+        public bool isBan { get; set; }
         public bool isAdmin { get; set; }
     }
 }

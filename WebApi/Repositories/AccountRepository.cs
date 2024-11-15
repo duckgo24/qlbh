@@ -29,7 +29,7 @@ namespace WebApi.Repositories
             return await _context.Accounts.ToListAsync();
         }
 
-        public async Task<Account> updateAccount(string id, UpdateAccountDto accountDto)
+        public async Task<Account> updateInfoUser(string id, UpdateUserDto updateUserDto)
         {
             var accountModel = await _context.Accounts.FirstOrDefaultAsync(a => a.acc_id == id);
             if (accountModel == null)
@@ -37,14 +37,31 @@ namespace WebApi.Repositories
                 return null;
             }
 
-            accountModel.nick_name = accountDto.nick_name;
-            accountModel.full_name = accountDto.full_name;
-            accountModel.gioi_tinh = accountDto.gioi_tinh;
-            accountModel.sdt = accountDto.sdt;
-            accountModel.dia_chi = accountDto.dia_chi;
-            accountModel.avatar = accountDto.avatar;
-            accountModel.ngay_sinh = accountDto.ngay_sinh;
-            accountModel.isAdmin = accountDto.isAdmin;
+        
+            accountModel.nick_name = updateUserDto.nick_name;
+            accountModel.full_name = updateUserDto.full_name;
+            accountModel.gioi_tinh = updateUserDto.gioi_tinh;
+            accountModel.sdt = updateUserDto.sdt;
+            accountModel.dia_chi = updateUserDto.dia_chi;
+            accountModel.avatar = updateUserDto.avatar;
+            accountModel.ngay_sinh = updateUserDto.ngay_sinh;
+
+            await _context.SaveChangesAsync();
+            return accountModel;
+        }
+
+        public async Task<Account> updateAccount(string id, UpdateAccountDto updateAccountDto)
+        {
+            var accountModel = await _context.Accounts.FirstOrDefaultAsync(a => a.acc_id == id);
+            if (accountModel == null)
+            {
+                return null;
+            }
+
+            accountModel.username = updateAccountDto.username;
+            accountModel.password = BCrypt.Net.BCrypt.HashPassword(updateAccountDto.password);
+            accountModel.isBan = updateAccountDto.isBan;
+            accountModel.isAdmin = updateAccountDto.isAdmin;
 
             await _context.SaveChangesAsync();
             return accountModel;

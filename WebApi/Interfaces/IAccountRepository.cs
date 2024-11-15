@@ -12,6 +12,7 @@ namespace WebApi.Interfaces
     {
         Task<List<Account>> GetAccounts();
         Task<Account> updateAccount(string id, UpdateAccountDto updateAccountDto);
+        Task<Account> updateInfoUser(string id, UpdateUserDto updateUserDto);
         Task<Account> deleteAccount(string id);
 
         Task<Account> GetAccountById(string id);

@@ -4,7 +4,7 @@ import useHookMutation from "../../hooks/useHookMutation";
 import { accountService } from "../../services/AccountService";
 import Cookie from 'js-cookie';
 import { useDispatch } from "react-redux";
-import { setAccount, setLogin } from "../../redux/slice/account.slice";
+import { setLogin, setMyAccount } from "../../redux/slice/account.slice";
 import RenderWithCondition from "../RenderWithCondition";
 import { useNavigate } from "react-router-dom";
 
@@ -21,6 +21,8 @@ const SignIn = forwardRef(({ onClickSignUp, onLoginSuccess }, ref) => {
         setShowError(false);
     };
 
+    const [thongBao, setThongBao] = useState();
+
     const handleFocusInput = () => {
         setShowError(false);
     };
@@ -34,17 +36,27 @@ const SignIn = forwardRef(({ onClickSignUp, onLoginSuccess }, ref) => {
 
     const handleSignIn = () => {
         loginMutation.mutate(undefined, {
-            onError: () => setShowError(true),
+            onError: () => {
+                setShowError(true);
+                setThongBao('Tài khoản hoặc mật khẩu không chính xác');
+            },
             onSuccess: (data) => {
-                onLoginSuccess(data);
                 const { access_token, refresh_token, account } = data;
+                if (account.isBan) {
+                    setThongBao('Tài khoản của bạn đã bị khóa');
+                    setShowError(true);
+                    return;
+                }
+                onLoginSuccess(data);
                 Cookie.set('access_token', access_token, { expires: 1, path: '/' });
-                Cookie.set('refresh_token', refresh_token, { expires: 365, path: '/' });
-                dispatch(setAccount(account));
-                
-                if(account?.isAdmin) {
+                Cookie.set('refresh_token', refresh_token, { expires: 365, path: '/' })
+
+               
+                dispatch(setMyAccount(account));
+                if (account?.isAdmin) {
                     navigate('/admin');
                 }
+
             }
         });
     };
@@ -83,9 +95,9 @@ const SignIn = forwardRef(({ onClickSignUp, onLoginSuccess }, ref) => {
                             onFocus={handleFocusInput}
                         />
                     </FormControl>
-                    {isError && showError && (
+                    {thongBao && showError && (
                         <div className="text-red-500 text-start">
-                            Thông tin đăng nhập không chính xác
+                            {thongBao}
                         </div>
                     )}
                 </div>

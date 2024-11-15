@@ -9,7 +9,7 @@ import Carousel from 'react-material-ui-carousel'
 import { accountService } from "../services/AccountService";
 import { productService } from "../services/ProductService";
 
-import { setAccount } from "../redux/slice/account.slice";
+import { setMyAccount } from "../redux/slice/account.slice";
 import { setListProduct, setProductBestSale, setProductNew } from "../redux/slice/product.slice";
 import ListProduct from "../components/product_component/List-Product";
 import DanhMuc from "../components/danhmuc_component/DanhMuc";
@@ -44,7 +44,7 @@ function Home() {
 
     useEffect(() => {
         if (isFetchAuthSuccess) {
-            dispatch(setAccount(authData));
+            dispatch(setMyAccount(authData));
         }
 
         if(isFetchProductAllSuccess) {
@@ -52,7 +52,7 @@ function Home() {
         }
 
         if(isFetchAuthError) {
-            dispatch(setAccount(null));
+            dispatch(setMyAccount(null));
         }
 
         if (isfetchProductBestSaleSuccess) {

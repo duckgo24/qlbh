@@ -9,7 +9,7 @@ import { Modal, Popover } from "@mui/material";
 import RenderWithCondition from "../RenderWithCondition";
 import SignIn from "../Sign-in";
 import SignUp from "../Sign-up";
-import { setAccount } from "../../redux/slice/account.slice";
+import { setMyAccount } from "../../redux/slice/account.slice";
 import useDebounce from "../../hooks/useDebounce";
 import { productService } from "../../services/ProductService";
 
@@ -48,7 +48,7 @@ function Header() {
     }
 
     const handleClickLogOut = (e) => {
-        dispath(setAccount(null));
+        dispath(setMyAccount(null));
         Cookies.remove('access_token');
         Cookies.remove('refresh_token');
     }

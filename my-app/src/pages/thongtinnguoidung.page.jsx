@@ -7,7 +7,7 @@ import { FaUser } from 'react-icons/fa';
 import useHookMutation from '../hooks/useHookMutation';
 import { accountService } from '../services/AccountService';
 import ThongBao from '../components/ThongBao';
-import { setUpdateAccount } from '../redux/slice/account.slice';
+import { setUpdateMyAccount } from '../redux/slice/account.slice';
 import RenderWithCondition from '../components/RenderWithCondition';
 
 export default function ThongTinNguoiDung() {
@@ -33,6 +33,7 @@ export default function ThongTinNguoiDung() {
   const handleClickReqEdit = () => {
     setIsReqEdit(false)
   }
+  
   const updateUserMutation = useHookMutation((data) => {
     return accountService.updateUser(data);
   });
@@ -49,7 +50,7 @@ export default function ThongTinNguoiDung() {
 
     updateUserMutation.mutate((formData), {
       onSuccess: (res) => {
-        dispatch(setUpdateAccount(res.account));
+        dispatch(setUpdateMyAccount(res.account));
       }
     })
   }

@@ -35,7 +35,11 @@ export default function DonHangPage() {
         if (isSuccessFetchGetHdbChuaThanhToan) {
             setData(hdbChuaThanhToanData);
         }
-    }, [isErrorFetchGetHdbChuaThanhToan])
+        if (isSuccessFetchGetHdbDaThanhToan) {
+            setData(hdbDaThanhToanData);
+        }
+
+    }, [isSuccessFetchGetHdbChuaThanhToan, isSuccessFetchGetHdbDaThanhToan]);
 
 
 

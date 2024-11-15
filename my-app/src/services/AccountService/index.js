@@ -31,14 +31,19 @@ async function getAllAccount() {
 
 
 async function updateUser(data) {
-    await delay(2000);
+    const { acc_id } = data;
+    const res = await axiosJWT.put(`${baseURL}/account/update-user/${acc_id}`, data);
+    return res.data;
+}
+
+async function updateAccount(data) {
     const { acc_id } = data;
     const res = await axiosJWT.put(`${baseURL}/account/update/${acc_id}`, data);
     return res.data;
 }
 
+
 async function deleteAccount(acc_id) { 
-    await delay(2000);
     const res = await axiosJWT.delete(`${baseURL}/account/delete/${acc_id}`);
     return res.data;
 }
@@ -50,5 +55,6 @@ export const accountService = {
     getAllAccount,
     Auth, 
     updateUser,
+    updateAccount,
     deleteAccount
 }

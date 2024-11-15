@@ -15,6 +15,21 @@ async function getHDBById(id) {
     const res = await axiosJWT.get(`${baseURL}/hoadonban/get-by-id/${id}`);
     return res.data;
 }
+
+async function layDanhSachHoaDonTheoNgay(ngay) {
+    const res = await axiosJWT.get(`${baseURL}/hoadonban/get-theo-ngay/${ngay}`);
+    return res.data;
+}
+
+async function layDanhSachHoaDonTheoTongTien(tong_tien) {
+    const res = await axiosJWT.get(`${baseURL}/hoadonban/get-theo-tong-tien/${tong_tien}`);
+    return res.data;
+}
+
+async function layDanhSachHoaDonTheoTrangThai({ thanh_toan }) {
+    const res = await axiosJWT.get(`${baseURL}/hoadonban/get-theo-trang-thai/${thanh_toan}`);
+    return res.data;
+}
 async function layDanhSachHoaDonByUser({ userId }) {
     const res = await axiosJWT.get(`${baseURL}/hoadonban/get-by-id/${userId}`);
     return res.data;
@@ -39,7 +54,6 @@ async function xoaHoaDonBan(id) {
     return res.data
 }
 async function capNhatHoaDonBan(id, data) {
-    await delay(1000);
     const res = await axiosJWT.put(`${baseURL}/hoadonban/update/${id}`, data);
     return res.data;
 }
@@ -48,6 +62,9 @@ async function capNhatHoaDonBan(id, data) {
 
 export const hoadonbanService = {
     getTatCaHoaDonBan,
+    layDanhSachHoaDonTheoNgay,
+    layDanhSachHoaDonTheoTongTien,
+    layDanhSachHoaDonTheoTrangThai,
     layDanhSachHoaDonByUser,
     layDanhSachHoaDonChuaThanhToanByUser,
     layDanhSachHoaDonDaThanhToanByUser,

@@ -11,6 +11,10 @@ namespace WebApi.Interfaces
     {
         Task<List<HoaDonBan>> GetHoaDonBans();
         Task<HoaDonBan> GetHoaDonBanById(string id);
+        Task<List<HoaDonBan>> GetHoaDonBanTheoNgay(DateTime ngay);
+        Task<List<HoaDonBan>> GetHoaDonBanTheoTongTien(decimal tongTien);
+        Task<List<HoaDonBan>> GetHoaDonBanTheoTrangThai(bool thanh_toan);
+
         Task<HoaDonBan> CreateHoaDonBan(createHoaDonBanDto createHoaDonBanDto);
         Task<HoaDonBan> UpdateHoaDonBan(string id, updateHoaDonBanDto updateHoaDonBanDto);
         Task<HoaDonBan> DeleteHoaDonBan(string id);

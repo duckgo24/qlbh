@@ -14,11 +14,18 @@ const hdbSlice = createSlice({
         setListHDB: (state, action) => {
             state.list_hdb = action.payload;
         },
+        setDeleteHDB: (state, action) => {
+            const index = state.list_hdb.findIndex(item => item.ma_hdb === action.payload.ma_hdb);
+            if (index !== -1) {
+                state.list_hdb.splice(index, 1);
+            }
+        },
 
         //User
         setListHDBByUser: (state, action) => {
             state.list_hdb_by_user = action.payload;
         },
+
         setHDBChuaThanhToanByUser: (state, action) => {
             state.hdb_chua_thanh_toan_by_user = action.payload;
         },
@@ -29,10 +36,13 @@ const hdbSlice = createSlice({
             state.hdb_da_thanh_toan_by_user.push(action.payload);
         },
         setDeleteHDBChuaThanhToanByUser: (state, action) => {
-            const index = state.hdb_chua_thanh_toan_by_user.findIndex(item => item.ma_hdb === action.payload.ma_hdb);
+            const index = state.hdb_chua_thanh_toan_by_user.findIndex(
+                item => item.ma_hdb === action.payload.ma_hdb
+            );
             if (index !== -1) {
                 state.hdb_chua_thanh_toan_by_user.splice(index, 1);
             }
+
         },
         setListHDBChoThanhToanByUser: (state, action) => {
             state.list_hdb_cho_thanh_toan = action.payload;
@@ -56,6 +66,7 @@ const hdbSlice = createSlice({
 
 export const {
     setListHDB,
+    setDeleteHDB,
     setListHDBByUser,
     setListHDBChuaThanhToanByUser,
     setDeleteHDBChuaThanhToanByUser,

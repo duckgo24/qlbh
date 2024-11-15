@@ -47,6 +47,25 @@ namespace WebApi.Controllers
             return Ok(_mapper.Map<HoaDonBanDto>(hoaDonBan));
         }
 
+        [HttpGet("get-theo-ngay/{ngay}")]
+        public async Task<IActionResult> GetTheoNgay(DateTime ngay)
+        {
+            List<Models.HoaDonBan> hoaDonBans = await _hoaDonBanRepository.GetHoaDonBanTheoNgay(ngay);
+            return Ok(_mapper.Map<List<HoaDonBanDto>>(hoaDonBans));
+        }
+        [HttpGet("get-theo-tong-tien/{tongTien}")]
+        public async Task<IActionResult> GetTheoTongTien(decimal tongTien)
+        {
+            List<Models.HoaDonBan> hoaDonBans = await _hoaDonBanRepository.GetHoaDonBanTheoTongTien(tongTien);
+            return Ok(_mapper.Map<List<HoaDonBanDto>>(hoaDonBans));
+        }
+        [HttpGet("get-theo-trang-thai/{thanh_toan}")]
+        public async Task<IActionResult> GetTheoTrangThai(bool thanh_toan)
+        {
+            List<Models.HoaDonBan> hoaDonBans = await _hoaDonBanRepository.GetHoaDonBanTheoTrangThai(thanh_toan);
+            return Ok(_mapper.Map<List<HoaDonBanDto>>(hoaDonBans));
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] createHoaDonBanDto _createHoaDonBanDto)
         {

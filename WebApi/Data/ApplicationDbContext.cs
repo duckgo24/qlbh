@@ -22,9 +22,13 @@ namespace WebApi.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(
-                              "Server=LAPTOP-OKNDRQI4;Database=qlbh;Integrated Security=True;TrustServerCertificate=true;"
-                           );
+            // optionsBuilder.UseSqlServer(
+            //                   "Server=LAPTOP-OKNDRQI4;Database=qlbh;Integrated Security=True;TrustServerCertificate=true;"
+            //                );
+            optionsBuilder.UseMySql(
+                "server=localhost;port=3306;database=ql_banhang;user=root;password=Test@123;",
+                new MySqlServerVersion(new Version(8, 0, 2))
+            );
         }
 
 

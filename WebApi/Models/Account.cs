@@ -17,6 +17,7 @@ namespace WebApi.Models
         public string dia_chi { get; set; }
         public string avatar { get; set; }
         public DateTime ngay_sinh { get; set; }
+        public bool isBan { get; set; } = false;
 
         public bool isAdmin { get; set; } = false;
 

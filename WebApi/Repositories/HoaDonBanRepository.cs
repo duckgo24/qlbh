@@ -35,6 +35,34 @@ namespace WebApi.Repositories
             }
             return listHDB;
         }
+
+        public async Task<List<HoaDonBan>> GetHoaDonBanTheoNgay(DateTime ngay)
+        {
+            var listHDB = await _context.HoaDonBans.Where(x => x.ngay_tao.Date == ngay.Date).ToListAsync();
+            foreach (HoaDonBan hdb in listHDB)
+            {
+                hdb.ChiTietHoaDonBans = await _chiTietHoaDonBanRepository.GetChiTietHoaDonBanByHdbId(hdb.ma_hdb);
+            }
+            return listHDB;
+        }
+        public async Task<List<HoaDonBan>> GetHoaDonBanTheoTongTien(decimal tongTien)
+        {
+            var listHDB = await _context.HoaDonBans.Where(x => x.tong_tien >= tongTien).ToListAsync();
+            foreach (HoaDonBan hdb in listHDB)
+            {
+                hdb.ChiTietHoaDonBans = await _chiTietHoaDonBanRepository.GetChiTietHoaDonBanByHdbId(hdb.ma_hdb);
+            }
+            return listHDB;
+        }
+        public async Task<List<HoaDonBan>> GetHoaDonBanTheoTrangThai(bool thanh_toan)
+        {
+            var listHDB = await _context.HoaDonBans.Where(x => x.thanh_toan == thanh_toan).ToListAsync();
+            foreach (HoaDonBan hdb in listHDB)
+            {
+                hdb.ChiTietHoaDonBans = await _chiTietHoaDonBanRepository.GetChiTietHoaDonBanByHdbId(hdb.ma_hdb);
+            }
+            return listHDB;
+        }
         public async Task<HoaDonBan> GetHoaDonBanById(string id)
         {
             var hdb = await _context.HoaDonBans.FirstOrDefaultAsync(x => x.ma_hdb == id);
@@ -43,6 +71,7 @@ namespace WebApi.Repositories
 
             return hdb;
         }
+
         public async Task<HoaDonBan> CreateHoaDonBan(createHoaDonBanDto _createHoaDonBanDto)
         {
             var _hdbCreated = _context.HoaDonBans.Add(new HoaDonBan
@@ -53,7 +82,7 @@ namespace WebApi.Repositories
                 phuong_thuc_thanh_toan = _createHoaDonBanDto.phuong_thuc_thanh_toan,
             });
 
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
 
             foreach (createChiTietHoaDonBanDto cthdb in _createHoaDonBanDto.danh_sach_san_pham)
             {
@@ -90,16 +119,23 @@ namespace WebApi.Repositories
 
         public async Task<HoaDonBan> DeleteHoaDonBan(string id)
         {
-            var hdb = await _context.HoaDonBans.FirstOrDefaultAsync(x => x.ma_hdb == id);
+            var hdb = await _context.HoaDonBans
+                .Include(h => h.ChiTietHoaDonBans)
+                .FirstOrDefaultAsync(x => x.ma_hdb == id);
+
             if (hdb == null)
             {
                 return null;
             }
-            hdb.ChiTietHoaDonBans = await _chiTietHoaDonBanRepository.GetChiTietHoaDonBanByHdbId(hdb.ma_hdb);
+
+            _context.ChiTietHoaDonBans.RemoveRange(hdb.ChiTietHoaDonBans);
             _context.HoaDonBans.Remove(hdb);
+
             await _context.SaveChangesAsync();
+
             return hdb;
         }
+
         public async Task<List<HoaDonBan>> GetHoaDonBanByUserId(string userId)
         {
             var listHdb = await _context.HoaDonBans.Where(x => x.acc_id == userId).ToListAsync();

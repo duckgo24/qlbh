@@ -15,15 +15,7 @@ import { setAddDanhMuc, setDanhMuc, setDeleteDanhMuc, setEditDanhMuc, } from "..
 function AdminDanhMucPage() {
     const { list_danhmuc } = useSelector(state => state.danhmuc);
     const [openModal, setOpenModal] = useState(false);
-    const [openModalDelete, setOpenModalDelete] = useState(null);
-
-    const handleOpenDeleteModal = (id) => {
-        setOpenModalDelete(id);
-    };
-
-    const handleCloseDeleteModal = () => {
-        setOpenModalDelete(null);
-    };
+    const [openModalDelete, setOpenModalDelete] = useState(false);
     const [thongbao, setThongBao] = useState({
         isOpen: false,
         type: "",
@@ -41,6 +33,7 @@ function AdminDanhMucPage() {
     });
 
 
+    //Thêm danh mục
     const addDanhMucMutation = useHookMutation((data) => {
         return danhMucService.createDanhMuc(data);
     });
@@ -77,6 +70,12 @@ function AdminDanhMucPage() {
         });
     };
 
+    //Xóa danh mục
+    const handleOpenModalXoaDanhMuc = (dm) => {
+        setOpenModalDelete(true);
+        setFormData(dm);
+    };
+
 
     const deleteDanhMucMutation = useHookMutation((id) => {
         return danhMucService.deleteDanhMuc(id);
@@ -94,6 +93,7 @@ function AdminDanhMucPage() {
                 dispatch(setDeleteDanhMuc({
                     ma_dm: id
                 }));
+                setFormData({});
             },
             onError: (err) => {
                 setThongBao({
@@ -199,7 +199,7 @@ function AdminDanhMucPage() {
                             {option === "Them-DM" ? "Thêm danh mục" : "Sửa danh mục"}
                         </p>
                         <form className="flex flex-col gap-4">
-                            <input name="ten_dm" onChange={handleOnChangeInput} value={formData.ten_dm} type="text" placeholder="Tên danh mục" className="border-2 border-gray-300 p-2 outline-none text-base rounded-2xl" />
+                            <input name="ten_dm" onChange={handleOnChangeInput} value={formData?.ten_dm} type="text" placeholder="Tên danh mục" className="border-2 border-gray-300 p-2 outline-none text-base rounded-2xl" />
                             <textarea name="mo_ta" onChange={handleOnChangeInput} value={formData?.mo_ta} type="text" placeholder="Mô tả" className="border-2 border-gray-300 p-2 outline-none text-base rounded-2xl" />
                             <button onClick={option === "Them-DM" ? handleAddDanhMuc : handleEditDanhMuc} className="bg-green-600 text-white p-2 rounded-lg">
                                 {option === "Them-DM" ? "Thêm" : "Sửa"}
@@ -242,22 +242,8 @@ function AdminDanhMucPage() {
                                     <button onClick={() => handleOpenModalSuaDanhMuc(dm)} className="px-2 py-2 rounded-full bg-green-600">
                                         <RiEditLine color="#fff" size={25} />
                                     </button>
-                                    <button onClick={() => handleOpenDeleteModal(dm?.ma_dm)} className="px-2 py-2 rounded-full bg-red-300">
+                                    <button onClick={() => handleOpenModalXoaDanhMuc(dm)} className="px-2 py-2 rounded-full bg-red-300">
                                         <RiDeleteBin6Line color="#fff" size={25} />
-                                        <Modal
-                                            open={openModalDelete === dm?.ma_dm}
-                                            onClose={handleCloseDeleteModal}
-                                            className="flex justify-center items-center"
-                                        >
-                                            <div className="bg-white p-4 w-96 rounded-lg">
-                                                <p className="text-2xl font-bold pb-5">Xác nhận xóa</p>
-                                                <p>Bạn có chắc chắn muốn xóa danh mục {dm?.ten_dm} ?</p>
-                                                <div className="flex gap-4">
-                                                    <button onClick={() => handleDeleteDanhMuc(dm?.ma_dm)} className="bg-red-600 text-white p-2 rounded-lg px-7">Xóa</button>
-                                                    <button onClick={handleCloseDeleteModal} className="bg-gray-300 text-white p-2 rounded-lg px-6">Hủy</button>
-                                                </div>
-                                            </div>
-                                        </Modal>
                                     </button>
                                 </td>
                             </tr>
@@ -265,6 +251,26 @@ function AdminDanhMucPage() {
                     </tbody>
                 </table>
             </div>
+            <Modal
+                open={openModalDelete}
+                onClose={() => {
+                    setOpenModalDelete(false);
+                    setFormData(null);
+                }}
+                className="flex justify-center items-center"
+            >
+                <div className="bg-white p-4 w-96 rounded-lg">
+                    <p className="text-2xl font-bold pb-5">Xác nhận xóa</p>
+                    <p>Bạn có chắc chắn muốn xóa danh mục {formData?.ten_dm} ?</p>
+                    <div className="flex gap-4">
+                        <button onClick={() => handleDeleteDanhMuc(formData?.ma_dm)} className="bg-red-600 text-white p-2 rounded-lg px-7">Xóa</button>
+                        <button onClick={() => {
+                            setOpenModalDelete(false);
+                            setFormData(null);
+                        }} className="bg-gray-300 text-white p-2 rounded-lg px-6">Hủy</button>
+                    </div>
+                </div>
+            </Modal>
             <ThongBao isOpen={thongbao.isOpen} type={thongbao.type} message={thongbao.message} />
         </div>
 

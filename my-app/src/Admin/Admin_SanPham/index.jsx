@@ -23,7 +23,7 @@ function AdminSanPhamPage() {
     const { list_product } = useSelector(state => state.product);
     const { list_danhmuc } = useSelector(state => state.danhmuc);
     const [openModal, setOpenModal] = useState(false);
-    const [openModalDelete, setOpenModalDelete] = useState(null);
+    const [openModalDelete, setOpenModalDelete] = useState(false);
     const [imgUrl, setImgUrl] = useState(null);
     const [imgPreview, setImgPreview] = useState(null);
     const [thongbao, setThongBao] = useState({
@@ -47,18 +47,11 @@ function AdminSanPhamPage() {
         queryFn: productService.getAllProduct
     });
 
+    //Thêm sản phẩm
     const addSanPhamMutation = useHookMutation((data) => {
         return productService.createProduct(data);
     });
 
-
-    const handleOpenDeleteModal = (id) => {
-        setOpenModalDelete(id);
-    };
-
-    const handleCloseDeleteModal = () => {
-        setOpenModalDelete(null);
-    };
 
 
     const handleAddSanPham = (e) => {
@@ -71,8 +64,6 @@ function AdminSanPhamPage() {
             });
             return;
         }
-
-        
 
         addSanPhamMutation.mutate(formData, {
             onSuccess: (data) => {
@@ -98,11 +89,18 @@ function AdminSanPhamPage() {
     };
 
 
+    //Xóa sản phẩm
+    const handleOpenModalDeleteSanPham = (data) => {
+        setOpenModalDelete(true);
+        setFormData(data);
+    };
+
+
     const deletesanPhamMutation = useHookMutation((id) => {
         return productService.deleteProduct(id);
     })
 
-    const handleDeletesanPham = (id) => {
+    const handleDeleteSanPham = (id) => {
         deletesanPhamMutation.mutate(id, {
             onSuccess: () => {
                 setOpenModalDelete(false);
@@ -125,6 +123,7 @@ function AdminSanPhamPage() {
         });
     }
 
+    //Sửa sản phẩm
     const handleOpenModalSuaSanPham = (data) => {
         setFormData(data);
         setOption("Sua-SP");
@@ -132,7 +131,6 @@ function AdminSanPhamPage() {
     }
 
     const editSanPhamMutation = useHookMutation((data) => {
-
         return productService.updateProduct(data.ma_sp, data);
     });
 
@@ -246,6 +244,7 @@ function AdminSanPhamPage() {
                     onClose={() => {
                         setOpenModal(false);
                         setOption("");
+                        setFormData({});
                     }}
                     className="flex justify-center items-center"
                 >
@@ -363,22 +362,8 @@ function AdminSanPhamPage() {
                                     <button onClick={() => handleOpenModalSuaSanPham(product)} className="px-2 py-2 rounded-full bg-green-600">
                                         <RiEditLine color="#fff" size={25} />
                                     </button>
-                                    <button onClick={() => handleOpenDeleteModal(product?.ma_sp)} className="px-2 py-2 rounded-full bg-red-300">
-                                    <RiDeleteBin6Line color="#fff" size={25} />
-                                        <Modal
-                                            open={openModalDelete === product?.ma_sp}
-                                            onClose={handleCloseDeleteModal}
-                                            className="flex justify-center items-center"
-                                        >
-                                            <div className="bg-white p-4 w-96 rounded-lg">
-                                                <p className="text-2xl font-bold pb-5">Xác nhận xóa</p>
-                                                <p>Bạn có chắc chắn muốn xóa sản phẩm {product?.ten_sp} ?</p>
-                                                <div className="flex gap-4">
-                                                    <button onClick={() => handleDeletesanPham(product?.ma_sp)} className="bg-red-600 text-white p-2 rounded-lg px-7">Xóa</button>
-                                                    <button onClick={handleCloseDeleteModal} className="bg-gray-300 text-white p-2 rounded-lg px-6">Hủy</button>
-                                                </div>
-                                            </div>
-                                        </Modal>
+                                    <button onClick={() => handleOpenModalDeleteSanPham(product)} className="px-2 py-2 rounded-full bg-red-300">
+                                        <RiDeleteBin6Line color="#fff" size={25} />
                                     </button>
                                 </td>
                             </tr>
@@ -386,6 +371,30 @@ function AdminSanPhamPage() {
                     </tbody>
                 </table>
             </div>
+            <Modal
+                open={openModalDelete}
+                onClose={() => {
+                    setOpenModalDelete(false);
+                    setFormData({});
+                }}
+                className="flex justify-center items-center"
+            >
+                <div className="bg-white p-4 w-96 rounded-lg">
+                    <p className="text-2xl font-bold pb-5">Xác nhận xóa</p>
+                    <p>Bạn có chắc chắn muốn xóa sản phẩm {formData?.ten_sp} ?</p>
+                    <div className="flex gap-4">
+                        <button onClick={() => handleDeleteSanPham(formData?.ma_sp)} className="bg-red-600 text-white p-2 rounded-lg px-7">Xóa</button>
+                        <button
+                            onClick={() => {
+                                setOpenModalDelete(false);
+                                setFormData({});
+                            }}
+                            className="bg-gray-300 text-white p-2 rounded-lg px-6">
+                            Hủy
+                        </button>
+                    </div>
+                </div>
+            </Modal>
             <ThongBao isOpen={thongbao.isOpen} type={thongbao.type} message={thongbao.message} />
         </div>
 
