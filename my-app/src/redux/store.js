@@ -8,6 +8,7 @@ import accountReducer from './slice/account.slice';
 import productReducer from './slice/product.slice';
 import danhMucReducer from './slice/danhmuc.slice';
 import hdbReducer from './slice/hoadonban.slice'
+import hdnReducer from './slice/hoadonnhap.slice';
 
 import persistConfig from './persist.config';
 
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     account: accountReducer,
     danhmuc: danhMucReducer,
     product: productReducer,
-    hdb: hdbReducer
+    hdb: hdbReducer,
+    hdn: hdnReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

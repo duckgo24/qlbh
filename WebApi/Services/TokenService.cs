@@ -33,7 +33,7 @@ namespace WebApi.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(double.Parse(_config["Jwt:AccessExpiresInMinutes"])),
+                Expires = DateTime.UtcNow.AddDays(double.Parse(_config["Jwt:AccessExpiresInDay"])),
                 Issuer = _config["Jwt:Issuer"],
                 Audience = _config["Jwt:Audience"],
                 SigningCredentials = creds
@@ -60,7 +60,7 @@ namespace WebApi.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(double.Parse(_config["Jwt:RefreshExpiresInMinutes"])),
+                Expires = DateTime.UtcNow.AddDays(double.Parse(_config["Jwt:RefreshExpiresInDay"])),
                 Issuer = _config["Jwt:Issuer"],
                 Audience = _config["Jwt:Audience"],
                 SigningCredentials = creds

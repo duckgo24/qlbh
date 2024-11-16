@@ -28,6 +28,7 @@ namespace WebApi.Repositories
         }
         public async Task<ChiTietHoaDonNhap> CreateChiTietHoaDonNhap(createChiTietHoaDonNhapDto createChiTietHoaDonNhapDto, string ma_hdn)
         {
+
             var _cthdCreated = _context.ChiTietHoaDonNhaps.Add(new ChiTietHoaDonNhap
             {
                 ma_hdn = ma_hdn,

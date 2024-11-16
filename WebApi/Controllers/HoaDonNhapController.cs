@@ -13,7 +13,7 @@ using WebApi.Repositories;
 
 namespace WebApi.Controllers
 {
-    [Authorize]
+    [Authorize(policy: "Admin")]
     [ApiController]
     [Route("hoadonnhap")]
     public class HoaDonNhapController : Controller
@@ -53,7 +53,7 @@ namespace WebApi.Controllers
             Models.HoaDonNhap hoaDonNhap = await _hoaDonNhapRepository.CreateHoaDonNhap(_createHoaDonNhapDto);
             return Ok(_mapper.Map<HoaDonNhapDto>(hoaDonNhap));
         }
-        
+
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
@@ -65,24 +65,24 @@ namespace WebApi.Controllers
             return Ok(_mapper.Map<HoaDonNhapDto>(hoaDonNhap));
         }
 
-        [HttpGet("get-by-user-id/{userId}")]
-        public async Task<IActionResult> GetByUserId(string userId)
+        [HttpGet("get-by-tong-tien/{tongTien}")]
+        public async Task<IActionResult> GetByTongTien(decimal tongTien)
         {
-            List<Models.HoaDonNhap> hoaDonNhaps = await _hoaDonNhapRepository.GetHoaDonNhapByUserId(userId);
+            List<Models.HoaDonNhap> hoaDonNhaps = await _hoaDonNhapRepository.GetHoaDonNhapTheoTongTien(tongTien);
             return Ok(_mapper.Map<List<HoaDonNhapDto>>(hoaDonNhaps));
         }
 
-        [HttpGet("get-da-thanh-toan-by-user-id/{userId}")]
-        public async Task<IActionResult> GetDaThanhToanByUserId(string userId)
+        [HttpGet("get-da-thanh-toan")]
+        public async Task<IActionResult> GetDaThanhToan()
         {
-            List<Models.HoaDonNhap> hoaDonNhaps = await _hoaDonNhapRepository.GetHoaDonNhapDaThanhToanByUserId(userId);
+            List<Models.HoaDonNhap> hoaDonNhaps = await _hoaDonNhapRepository.GetHoaDonNhapDaThanhToan();
             return Ok(_mapper.Map<List<HoaDonNhapDto>>(hoaDonNhaps));
         }
 
-        [HttpGet("get-chua-thanh-toan-by-user-id/{userId}")]
-        public async Task<IActionResult> GetChuaThanhToanByUserId(string userId)
+        [HttpGet("get-chua-thanh-toan")]
+        public async Task<IActionResult> GetChuaThanhToan()
         {
-            List<Models.HoaDonNhap> hoaDonNhaps = await _hoaDonNhapRepository.GetHoaDonNhapChuaThanhToanByUserId(userId);
+            List<Models.HoaDonNhap> hoaDonNhaps = await _hoaDonNhapRepository.GetHoaDonNhapChuaThanhToan();
             return Ok(_mapper.Map<List<HoaDonNhapDto>>(hoaDonNhaps));
         }
 

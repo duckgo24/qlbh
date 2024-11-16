@@ -37,6 +37,7 @@ namespace WebApi.Mappers
             CreateMap<ChiTietHoaDonBan, ChiTietHoaDonBanDto>();
             CreateMap<ChiTietHoaDonBan, createChiTietHoaDonBanDto>();
 
+
             CreateMap<HoaDonNhap, HoaDonNhapDto>();
             CreateMap<HoaDonNhap, createHoaDonNhapDto>();
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Data;
 using WebApi.Dtos.ChiTietHoaDonNhap;
-using WebApi.Dtos.HoaDonBan;
+using WebApi.Dtos.HoaDonNhap;
 using WebApi.Dtos.HoaDonNhap;
 using WebApi.Dtos.SanPham;
 using WebApi.Interfaces;
@@ -46,7 +46,6 @@ namespace WebApi.Repositories
         }
         public async Task<HoaDonNhap> CreateHoaDonNhap(createHoaDonNhapDto _createHoaDonNhapDto)
         {
-
             var _hdnCreated = _context.HoaDonNhaps.Add(new HoaDonNhap
             {
                 acc_id = _user.GetCurrentUser(),
@@ -55,14 +54,19 @@ namespace WebApi.Repositories
                 phuong_thuc_thanh_toan = _createHoaDonNhapDto.phuong_thuc_thanh_toan,
             });
 
-            foreach (createChiTietHoaDonNhapDto cthdn in _createHoaDonNhapDto.chiTietHoaDonNhapDtos)
+            await _context.SaveChangesAsync();
+
+            foreach (createChiTietHoaDonNhapDto cthdn in _createHoaDonNhapDto.danh_sach_san_pham)
             {
                 await _chiTietHoaDonNhapRepository.CreateChiTietHoaDonNhap(cthdn, _hdnCreated.Entity.ma_hdn);
                 var sanPham = await _sanPhamRepository.GetById(cthdn.ma_sp);
                 var soLuongMoi = sanPham.so_luong + cthdn.so_luong;
                 await _sanPhamRepository.UpdateSoLuong(cthdn.ma_sp, soLuongMoi);
             }
-            var sum = _context.ChiTietHoaDonNhaps.Where(x => x.ma_hdn == _hdnCreated.Entity.ma_hdn).Sum(x => x.tong_tien);
+
+            await _context.Entry(_hdnCreated.Entity).Collection(h => h.ChiTietHoaDonNhaps).LoadAsync();
+
+            int sum = _hdnCreated.Entity.ChiTietHoaDonNhaps.Sum(x => x.tong_tien);
             _hdnCreated.Entity.tong_tien = sum;
 
             await _context.SaveChangesAsync();
@@ -81,9 +85,10 @@ namespace WebApi.Repositories
             await _context.SaveChangesAsync();
             return hdn;
         }
-        public async Task<List<HoaDonNhap>> GetHoaDonNhapByUserId(string userId)
+
+        public async Task<List<HoaDonNhap>> GetHoaDonNhapTheoTongTien(decimal tongTien) 
         {
-            var listHdN = await _context.HoaDonNhaps.Where(x => x.acc_id == userId).ToListAsync();
+            var listHdN = await _context.HoaDonNhaps.Where(x => x.tong_tien >= tongTien).ToListAsync();
             foreach (HoaDonNhap hdn in listHdN)
             {
                 hdn.ChiTietHoaDonNhaps = await _chiTietHoaDonNhapRepository.GetChiTietHoaDonNhapByHdnId(hdn.ma_hdn);
@@ -91,9 +96,10 @@ namespace WebApi.Repositories
             return listHdN;
         }
 
-        public async Task<List<HoaDonNhap>> GetHoaDonNhapDaThanhToanByUserId(string userId)
+
+        public async Task<List<HoaDonNhap>> GetHoaDonNhapDaThanhToan()
         {
-            var listHdN = await _context.HoaDonNhaps.Where(x => x.acc_id == userId && x.thanh_toan == true).ToListAsync();
+            var listHdN = await _context.HoaDonNhaps.Where(x => x.thanh_toan == true).ToListAsync();
             foreach (HoaDonNhap hdn in listHdN)
             {
                 hdn.ChiTietHoaDonNhaps = await _chiTietHoaDonNhapRepository.GetChiTietHoaDonNhapByHdnId(hdn.ma_hdn);
@@ -101,9 +107,9 @@ namespace WebApi.Repositories
             return listHdN;
         }
 
-        public async Task<List<HoaDonNhap>> GetHoaDonNhapChuaThanhToanByUserId(string userId)
+        public async Task<List<HoaDonNhap>> GetHoaDonNhapChuaThanhToan()
         {
-            var listHdN = await _context.HoaDonNhaps.Where(x => x.acc_id == userId && x.thanh_toan == false).ToListAsync();
+            var listHdN = await _context.HoaDonNhaps.Where(x => x.thanh_toan == false).ToListAsync();
             foreach (HoaDonNhap hdn in listHdN)
             {
                 hdn.ChiTietHoaDonNhaps = await _chiTietHoaDonNhapRepository.GetChiTietHoaDonNhapByHdnId(hdn.ma_hdn);

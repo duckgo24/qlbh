@@ -13,9 +13,8 @@ namespace WebApi.Interfaces
         Task<HoaDonNhap> GetHoaDonNhapById(string id);
         Task<HoaDonNhap> CreateHoaDonNhap(createHoaDonNhapDto createHoaDonNhapDto);
         Task<HoaDonNhap> DeleteHoaDonNhap(string id);
-        Task<List<HoaDonNhap>> GetHoaDonNhapByUserId(string userId);
-
-        Task<List<HoaDonNhap>> GetHoaDonNhapDaThanhToanByUserId(string userId);
-        Task<List<HoaDonNhap>> GetHoaDonNhapChuaThanhToanByUserId(string userId);
+        Task<List<HoaDonNhap>> GetHoaDonNhapTheoTongTien(decimal tongTien);
+        Task<List<HoaDonNhap>> GetHoaDonNhapDaThanhToan();
+        Task<List<HoaDonNhap>> GetHoaDonNhapChuaThanhToan();
     }
 }

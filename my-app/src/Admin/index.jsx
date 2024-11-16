@@ -8,7 +8,9 @@ export default function AdminPage() {
     const { list_product } = useSelector(state => state.product);
     const { list_danhmuc } = useSelector(state => state.danhmuc);
     const { list_hdb } = useSelector(state => state.hdb);
+    const { list_hdn } = useSelector(state => state.hdn);
     const { list_account } = useSelector(state => state.account);
+    
 
 
     return (
@@ -52,7 +54,7 @@ export default function AdminPage() {
             </div>
 
             <div className="bg-red-400 text-white pt-4">
-                <p className="text-4xl px-4 py-2 font-bold">0</p>
+                <p className="text-4xl px-4 py-2 font-bold">{list_hdb.length || 0}</p>
                 <p className="px-4 text-xl pb-4">Hóa đơn nhập</p>
                 <Link to={"/admin/hoa-don-nhap"} style={{
                     backgroundColor: "rgba(0, 0, 0, 0.1)"

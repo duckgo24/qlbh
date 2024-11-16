@@ -16,7 +16,7 @@ import RenderWithCondition from "../../components/RenderWithCondition";
 
 
 function AdminHoaDonBanPage() {
-    const { list_hdb, filter_hdb } = useSelector(state => state.hdb);
+    const { list_hdb } = useSelector(state => state.hdb);
     const { list_product } = useSelector(state => state.product);
     const [openModalCTHD, setOpenModalCTHD] = useState(false);
     const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -80,7 +80,6 @@ function AdminHoaDonBanPage() {
             const data = await hoadonbanService.getHDBById(searchInput);
             if (data) {
                 setData([data]);
-                setLoading(false);
             }
         }
         if (optionSearch === "ma_tk") {
@@ -89,31 +88,29 @@ function AdminHoaDonBanPage() {
             })
             if (data) {
                 setData(data);
-                setLoading(false);
             }
         }
         if (optionSearch === "gia_tien") {
             const data = await hoadonbanService.layDanhSachHoaDonTheoTongTien(searchInput || 0);
             if (data) {
                 setData(data);
-                setLoading(false);
             }
         }
         if (optionSearch === "da_thanh_toan") {
             const data = await hoadonbanService.layDanhSachHoaDonTheoTrangThai({ thanh_toan: true });
             if (data) {
                 setData(data);
-                setLoading(false);
             }
         }
         if (optionSearch === "chua_thanh_toan") {
             const data = await hoadonbanService.layDanhSachHoaDonTheoTrangThai({ thanh_toan: false });
             if (data) {
                 setData(data);
-                setLoading(false);
+             
             }
         }
 
+        setLoading(false);
     }
 
 

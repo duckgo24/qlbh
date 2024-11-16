@@ -36,6 +36,7 @@ namespace WebApi.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(policy: "Admin")]
         [HttpGet("all")]
         public async Task<IActionResult> getAll()
         {
@@ -57,7 +58,7 @@ namespace WebApi.Controllers
             return Ok(new { message = "Account updated", account = _mapper.Map<AccountDto>(accountModel) });
         }
 
-        
+
         [HttpPut("update/{id}")]
         public async Task<IActionResult> updateAccount([FromRoute] string id, [FromBody] UpdateAccountDto updateAccountDto)
         {
